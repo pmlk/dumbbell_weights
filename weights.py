@@ -114,28 +114,37 @@ def possible_weights(weight_objects: [Weights]):
 
 
 def get_combos(weight_object: Weights, total_weights: [float]):
-    # print("total weights: {}".format(total_weights))
+    print()
+    print("total weights: {}".format(total_weights))
     combo_of_configs = []
+
+    original_weight_object = copy.deepcopy(weight_object)
 
     weight = total_weights[0]
     configs = weight_object.configs_for_weight(weight)
     for config in configs:
+        weight_object = copy.deepcopy(original_weight_object)
         t = (weight, config)
         # print("tuple: {}".format(t))
         if len(total_weights) == 1:
             combo_of_configs.append(t)
             return combo_of_configs
 
-        reduced_objects = reduced_weight_objects([weight_object], weight)
-        for r_weight_object in reduced_objects:
-            combos = get_combos(r_weight_object, total_weights[1:])
-            # print("combos: {}".format(combos))
-            if combos:
-                for c in combos:
+        weight_object.remove_symmetric_config(config)
+
+        combos = get_combos(weight_object, total_weights[1:])
+        # print("combos: {}".format(combos))
+        if combos:
+            for c in combos:
+                if len(combo_of_configs) < len(total_weights):
                     combo_of_configs.append(c)
 
-        combo_of_configs.append(t)
+        if len(combo_of_configs) < len(total_weights):
+            combo_of_configs.append(t)
+
+        # print("len(combo_of_configs): {}".format(len(combo_of_configs)))
+        # print("len(total_weights): {}".format(len(total_weights)))
         if len(combo_of_configs) == len(total_weights):
-            # print("returning")
+            # print("returning {}".format(combo_of_configs))
             return combo_of_configs
     # return combo_of_configs
