@@ -70,8 +70,11 @@ class Weights(object):
         for weight in config:
             if weight > 0:
                 count = self.available_weights[weight]
-                count -= 2
-                self.available_weights[weight] = count
+                if count > 1:
+                    count -= 2
+                    self.available_weights[weight] = count
+                else:
+                    raise ValueError("Not enough weights available!")
 
 
 def reduced_weight_objects(originals: [Weights], total_weight: float):
