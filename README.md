@@ -46,5 +46,6 @@ weight combos:
 * each empty dumbbell weighs 2 kg
 * there are an infinite number of empty dumbbells
 * symmetry:
+
    * configurations are always symmetric: `[2.0, 1.0]` means that there are 2 kg and 1 kg weights on each side of the dumbbell, which results in a total weight of `8 kg = 2 * (2 + 1) kg  + 2 kg` (empty dumbbell weight)
    * this means that it doesn't really make sense to add an odd number for a certain weight when executing the `inventory` command
