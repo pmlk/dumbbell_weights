@@ -66,7 +66,7 @@ class Weights(object):
         return sorted_configs
 
     def remove_symmetric_config(self, config: [float]):
-        # print("removing combo from {}: {}".format(self, combo))
+        # print("removing combo from {}: {}".format(self, config))
         for weight in config:
             if weight > 0:
                 count = self.available_weights[weight]
@@ -74,6 +74,7 @@ class Weights(object):
                     count -= 2
                     self.available_weights[weight] = count
                 else:
+                    # print(self.available_weights)
                     raise ValueError("Not enough weights available!")
 
 
@@ -82,11 +83,13 @@ def reduced_weight_objects(originals: [Weights], total_weight: float):
     # print("num originals: {}".format(len(originals)))
     for original in originals:
         combos = original.configs_for_weight(total_weight)
+        tmp_original = copy.deepcopy(original)
         # print("num combos: {}".format(len(combos)))
         for i, combo in enumerate(combos):
             original.remove_symmetric_config(combo)
             # print("combo #{:3}: {}".format(i, combo))
             reduced_weights.append(copy.deepcopy(original))
+            original = copy.deepcopy(tmp_original)
 
     # print("num reduced: {}".format(len(reduced_weights)))
     return reduced_weights
