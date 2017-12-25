@@ -16,10 +16,9 @@ def inventory():
     weights = [float(x) for x in string_weights]
 
     for w in weights:
-        count = int(input("How many times to you have {} kg: ".format(w)))
+        count = int(input("How many times do you have {} kg: ".format(w)))
         weight_counts[w] = count
 
-    weight_counts[0] = 1000
     print(weight_counts)
 
     with open("weights.json", "w") as jfile:
